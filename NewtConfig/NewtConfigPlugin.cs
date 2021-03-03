@@ -75,16 +75,17 @@ namespace xpcybic
         {
             orig(tele);
 
-            float portalRoll = tele.rng.nextNormalizedFloat;
+            float portalChance = BazaarPortalChance.Value;
             if (ScalePortalChanceOnPortalSpawn.Value)
-                portalRoll /= (float)(Run.instance.shopPortalCount + 1);
+                portalChance /= (float)(Run.instance.shopPortalCount + 1);
 
-            if (portalRoll <= BazaarPortalChance.Value)
+            if (tele.rng.nextNormalizedFloat <= portalChance)
             {
                 tele.shouldAttemptToSpawnShopPortal = true;
             }
             else
             {
+                tele.shouldAttemptToSpawnShopPortal = false;
             }
         }
     }
