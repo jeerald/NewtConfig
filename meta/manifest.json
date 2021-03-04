@@ -1,0 +1,9 @@
+{
+    "name": "NewtConfig",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/xpcybic/NewtConfig",
+    "description": "Fine-grained control over spawn rates of Newt Altars and bazaar portals.",
+    "dependencies": [
+        "bbepis-BepInExPack-5.3.1"
+    ]
+}
