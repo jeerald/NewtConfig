@@ -13,7 +13,7 @@ using UnityEngine.Networking;
 [module: UnverifiableCode]
 namespace xpcybic
 {
-    [BepInDependency("com.bepis.r2api")]
+    [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInPlugin("com.xpcybic.NewtConfig", "NewtConfig", "1.0.0")]
     public class NewtConfig : BaseUnityPlugin
     {
@@ -46,16 +46,16 @@ namespace xpcybic
         {
             orig(director);
 
-            if (NetworkServer.active && SceneInfo.instance.sceneDef.baseSceneName != "bazaar")
+            if (SceneInfo.instance.sceneDef.baseSceneName != "bazaar")
             {
                 //sky meadow and a couple other stages name them like this. we grab them by exact name so we don't accidentally disable an object we don't want to
                 var newts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "NewtStatue" || obj.name == "NewtStatue (1)" || obj.name == "NewtStatue (2)" || obj.name == "NewtStatue (3)" || obj.name == "NewtStatue (4)").ToList();
                 foreach (var newt in newts)
                 {
                     if (NewtAltarChance.Value >= 1 || director.rng.nextNormalizedFloat <= NewtAltarChance.Value)
-                        newt.SetActive(true);
+                        CmdSetActive(newt, true);
                     else
-                        newt.SetActive(false);
+                        CmdSetActive(newt, false);
                 }
 
                 if (!EnableGuaranteedNewtAltars.Value)
@@ -66,6 +66,26 @@ namespace xpcybic
                         newt.SetActive(false);
                 }
             }
+        }
+
+        private void LocalSetActive(GameObject obj, bool value)
+        {
+            obj.SetActive(value);
+        }
+
+        [Command]
+        private void CmdSetActive(GameObject obj, bool value)
+        {
+            LocalSetActive(obj, value);
+            RpcSetActive(obj, value);
+        }
+
+        [ClientRpc]
+        private void RpcSetActive(GameObject obj, bool value)
+        {
+            if (NetworkServer.active)
+                return;
+            LocalSetActive(obj, value);
         }
 
         private void TeleporterInteraction_Start(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction tele)
