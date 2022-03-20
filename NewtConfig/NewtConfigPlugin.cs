@@ -13,8 +13,7 @@ using UnityEngine.Networking;
 [module: UnverifiableCode]
 namespace xpcybic
 {
-    [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin("com.xpcybic.NewtConfig", "NewtConfig", "1.0.0")]
+    [BepInPlugin("com.xpcybic.NewtConfig", "NewtConfig", "1.1.0")]
     public class NewtConfig : BaseUnityPlugin
     {
         public static ConfigEntry<float> NewtAltarChance;
@@ -63,7 +62,7 @@ namespace xpcybic
                     //naming conventions??? NAHH
                     var guaranteedNewts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "NewtStatue, Guarantee" || obj.name == "NewtStatue, Guaranteed" || obj.name == "NewtStatue (Permanent)").ToList();
                     foreach (var newt in guaranteedNewts)
-                        newt.SetActive(false);
+                        CmdSetActive(newt, false);
                 }
             }
         }
