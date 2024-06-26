@@ -31,7 +31,7 @@ namespace xpcybic
 
         private void SetUpConfig()
         {
-            NewtAltarChance = Config.Bind("Main", "Newt altar chance", 0.5f,
+            NewtAltarChance = Config.Bind("Main", "Newt altar chance", 1f,
                 "Chance of each individual newt altar spawning on a stage. If set to 1, every newt altar will always spawn. If set to 0, newt altars will never spawn (except the guaranteed ones, which are handled separately).");
             BazaarPortalChance = Config.Bind("Main", "Bazaar portal chance", 0.375f,
                 "Chance of a bazaar portal naturally appearing after a teleporter has finished charging. If set to 1, every teleporter will spawn a bazaar portal. If set to 0, the bazaar portal will never appear unles a newt altar is activated.");
